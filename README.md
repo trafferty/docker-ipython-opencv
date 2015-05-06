@@ -10,6 +10,10 @@ Pull it:
 ```
     docker pull trafferty/docker-ipython-opencv
 ```
+Build it:
+```
+    docker build -t trafferty/docker-ipython-opencv
+```
 Run it:
 ```
     docker run --name cv_notebook -d -p 443:8888 -v $(pwd):/notebooks -e "PASSWORD=MY_PASSWORD"  trafferty/docker-ipython-opencv
