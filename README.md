@@ -6,6 +6,11 @@ Based from the ipython/scipyserver docker image, this dockerfile adds the latest
 ###Base Docker Image
 ipython/scipyserver
 ###Usage
+Pull it:
+```
+    docker pull trafferty/docker-ipython-opencv
+```
 Run it:
-  docker run --name cv_notebook -d -p 443:8888 -v $(pwd):/notebooks -e "PASSWORD=MY_PASSWORD"  trafferty/ipython-opencv
-
+```
+    docker run --name cv_notebook -d -p 443:8888 -v $(pwd):/notebooks -e "PASSWORD=MY_PASSWORD"  trafferty/docker-ipython-opencv
+```
