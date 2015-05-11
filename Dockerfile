@@ -76,6 +76,6 @@ WORKDIR /usr/local/
 RUN rm -rf /usr/local/src
 # =================================
 
-WORKDIR /notebooks
+WORKDIR /data
 
 
