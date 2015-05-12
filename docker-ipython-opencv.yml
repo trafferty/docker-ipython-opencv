@@ -1,0 +1,11 @@
+---
+
+ipythonnotebook:
+  image: trafferty/docker-ipython-opencv
+  ports:
+   - "80:8888"
+  environment:
+    PASSWORD: '*ipython*'
+    USE_HTTP: 1
+  volumes:
+   - ~/Dropbox/data:/data
