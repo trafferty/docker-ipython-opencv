@@ -53,6 +53,7 @@ RUN apt-get update -qq && apt-get install -y --force-yes \
 # =================================
 WORKDIR /usr/local/src
 RUN git clone https://github.com/Itseez/opencv.git
+RUN git clone https://github.com/Itseez/opencv_contrib.git
 RUN mkdir -p opencv/release
 WORKDIR /usr/local/src/opencv/release
 RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
@@ -63,6 +64,7 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
           -D INSTALL_C_EXAMPLES=ON \
           -D INSTALL_PYTHON_EXAMPLES=ON \
           -D BUILD_EXAMPLES=ON \
+          -D OPENCV_EXTRA_MODULES_PATH=/usr/local/src/opencv_contrib/modules \
           ..
 RUN make -j4
 RUN make install
