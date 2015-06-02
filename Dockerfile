@@ -70,6 +70,11 @@ RUN make -j4
 RUN make install
 RUN sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
 RUN ldconfig
+
+# Additional python modules
+RUN pip2 install imutils
+RUN pip3 install imutils
+
 # =================================
 
 # Remove all tmpfile
