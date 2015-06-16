@@ -65,6 +65,13 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
           -D INSTALL_PYTHON_EXAMPLES=ON \
           -D BUILD_EXAMPLES=ON \
           -D OPENCV_EXTRA_MODULES_PATH=/usr/local/src/opencv_contrib/modules \
+          -D WITH_XIMEA=YES \
+          -D PYTHON2_EXECUTABLE=/usr/bin/python \
+          -D PYTHON3_EXECUTABLE=/usr/bin/python3 \
+          -D PYTHON_INCLUDE_DIR=/usr/include/python2.7 \
+          -D PYTHON_INCLUDE_DIR2=/usr/include/x86_64-linux-gnu/python2.7 \
+          -D PYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so \
+          -D PYTHON2_NUMPY_INCLUDE_DIRS=/usr/lib/python2.7/dist-packages/numpy/core/include/ \
           ..
 RUN make -j4
 RUN make install
@@ -84,5 +91,3 @@ RUN rm -rf /usr/local/src
 # =================================
 
 WORKDIR /data
-
-
