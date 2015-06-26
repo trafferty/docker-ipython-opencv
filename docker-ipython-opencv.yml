@@ -8,4 +8,4 @@ ipythonnotebook:
     PASSWORD: '*ipython*'
     USE_HTTP: 1
   volumes:
-   - ~/Dropbox/data:/data
+   - ~/data:/data
