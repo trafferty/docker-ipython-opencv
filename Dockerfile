@@ -5,11 +5,13 @@ MAINTAINER Tom Rafferty <traff.td@gmail.com>
 
 ########################################
 #
-# Image based on ipython/scipyserver <- ipython/scipystack <- ipython/ipython:3.x
+# Image based on jupyter/scipy-notebook
 #
 #   added OpenCV 3 (built)
 #   plus prerequisites...
 #######################################
+
+USER root
 
 # Install opencv prerequisites...
 RUN apt-get update -qq && apt-get install -y --force-yes \
@@ -23,7 +25,7 @@ RUN apt-get update -qq && apt-get install -y --force-yes \
     cmake \
     pkg-config \
     yasm \
-    libtiff4-dev \
+    libtiff5-dev \
     libpng-dev \
     libjpeg-dev \
     libjasper-dev \
@@ -31,7 +33,7 @@ RUN apt-get update -qq && apt-get install -y --force-yes \
     libavformat-dev \
     libswscale-dev \
     libdc1394-22-dev \
-    libxine-dev \
+    libxine2-dev \
     libgstreamer0.10-dev \
     libgstreamer-plugins-base0.10-dev \
     libv4l-dev \
@@ -47,14 +49,23 @@ RUN apt-get update -qq && apt-get install -y --force-yes \
     v4l-utils \
     default-jdk \
     wget \
+    tmux \
+    libqt4-dev \
+    libphonon-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    qtmobility-dev \
+    libqtwebkit-dev \
     unzip; \
     apt-get clean
 
 # Build OpenCV 3.x
 # =================================
 WORKDIR /usr/local/src
-RUN git clone https://github.com/Itseez/opencv.git
-RUN git clone https://github.com/Itseez/opencv_contrib.git
+#RUN git clone --branch 3.1.0 --depth 1 https://github.com/Itseez/opencv.git
+#RUN git clone --branch 3.1.0 --depth 1 https://github.com/Itseez/opencv_contrib.git
+RUN git clone --depth 1 https://github.com/Itseez/opencv.git
+RUN git clone --depth 1 https://github.com/Itseez/opencv_contrib.git
 RUN mkdir -p opencv/release
 WORKDIR /usr/local/src/opencv/release
 RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
@@ -65,24 +76,40 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
           -D INSTALL_C_EXAMPLES=ON \
           -D INSTALL_PYTHON_EXAMPLES=ON \
           -D BUILD_EXAMPLES=ON \
+          -D BUILD_DOCS=ON \
           -D OPENCV_EXTRA_MODULES_PATH=/usr/local/src/opencv_contrib/modules \
           -D WITH_XIMEA=YES \
-          -D PYTHON2_EXECUTABLE=/usr/bin/python \
-          -D PYTHON3_EXECUTABLE=/usr/bin/python3 \
-          -D PYTHON_INCLUDE_DIR=/usr/include/python2.7 \
-          -D PYTHON_INCLUDE_DIR2=/usr/include/x86_64-linux-gnu/python2.7 \
-          -D PYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so \
-          -D PYTHON2_NUMPY_INCLUDE_DIRS=/usr/lib/python2.7/dist-packages/numpy/core/include/ \
+#          -D WITH_QT=YES \
+          -D WITH_FFMPEG=YES \
+          -D WITH_PVAPI=YES \
+          -D WITH_GSTREAMER=YES \
+          -D WITH_TIFF=YES \
+          -D WITH_OPENCL=YES \
+          -D PYTHON2_EXECUTABLE=/opt/conda/envs/python2/bin/python \
+          -D PYTHON2_INCLUDE_DIR=/opt/conda/envs/python2/include/python2.7 \
+          -D PYTHON2_LIBRARIES=/opt/conda/envs/python2/lib/libpython2.7.so \
+          -D PYTHON2_PACKAGES_PATH=/opt/conda/envs/python2/lib/python2.7/site-packages \
+          -D PYTHON2_NUMPY_INCLUDE_DIRS=/opt/conda/envs/python2/lib/python2.7/site-packages/numpy/core/include/ \
+          -D BUILD_opencv_python3=ON \
+          -D PYTHON3_EXECUTABLE=/opt/conda/bin/python \
+          -D PYTHON3_INCLUDE_DIR=/opt/conda/include/python3.4m/ \
+          -D PYTHON3_LIBRARY=/opt/conda/lib/libpython3.so \
+          -D PYTHON_LIBRARY=/opt/conda/lib/libpython3.so \
+          -D PYTHON3_PACKAGES_PATH=/opt/conda/lib/python3.4/site-packages \
+          -D PYTHON3_NUMPY_INCLUDE_DIRS=/opt/conda/lib/python3.4/site-packages/numpy/core/include/ \
           ..
-RUN make -j4
-RUN make install
-RUN sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
-RUN ldconfig
-
-# Additional python modules
-RUN /opt/conda/envs/python2/bin/pip install imutils
-RUN /opt/conda/envs/python3/bin/pip install imutils
-
-# =================================
-
-WORKDIR /data
+#RUN make -j4
+#RUN make install
+#RUN sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
+#RUN ldconfig
+#
+## Additional python modules
+#RUN /opt/conda/envs/python2/bin/pip install imutils
+#RUN /opt/conda/bin/pip install imutils
+#
+## =================================
+#
+## Switch back to jupyter user (for now)
+#USER jovyan
+#
+#WORKDIR /data
