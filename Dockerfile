@@ -1,10 +1,11 @@
-FROM ipython/scipyserver
+
+FROM jupyter/scipy-notebook
 
 MAINTAINER Tom Rafferty <traff.td@gmail.com>
 
 ########################################
 #
-# Image based on ipython/scipyserver
+# Image based on ipython/scipyserver <- ipython/scipystack <- ipython/ipython:3.x
 #
 #   added OpenCV 3 (built)
 #   plus prerequisites...
@@ -79,15 +80,9 @@ RUN sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
 RUN ldconfig
 
 # Additional python modules
-RUN pip2 install imutils
-RUN pip3 install imutils
+RUN /opt/conda/envs/python2/bin/pip install imutils
+RUN /opt/conda/envs/python3/bin/pip install imutils
 
-# =================================
-
-# Remove all tmpfile
-# =================================
-WORKDIR /usr/local/
-RUN rm -rf /usr/local/src
 # =================================
 
 WORKDIR /data
