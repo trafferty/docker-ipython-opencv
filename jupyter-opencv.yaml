@@ -7,5 +7,7 @@ ipythonnotebook:
   environment:
     PASSWORD: '*ipython*'
     USE_HTTP: 1
+    DISPLAY: :0
   volumes:
    - ~/data:/data
+   - /tmp/.X11-unix:/tmp/.X11-unix

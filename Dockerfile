@@ -7,7 +7,7 @@ MAINTAINER Tom Rafferty <traff.td@gmail.com>
 #
 # Image based on jupyter/scipy-notebook
 #
-#   added OpenCV 3 (built)
+#   added OpenCV 3.1.0 (built)
 #   plus prerequisites...
 #######################################
 
@@ -62,10 +62,8 @@ RUN apt-get update -qq && apt-get install -y --force-yes \
 # Build OpenCV 3.x
 # =================================
 WORKDIR /usr/local/src
-#RUN git clone --branch 3.1.0 --depth 1 https://github.com/Itseez/opencv.git
-#RUN git clone --branch 3.1.0 --depth 1 https://github.com/Itseez/opencv_contrib.git
-RUN git clone --depth 1 https://github.com/Itseez/opencv.git
-RUN git clone --depth 1 https://github.com/Itseez/opencv_contrib.git
+RUN git clone --branch 3.1.0 --depth 1 https://github.com/Itseez/opencv.git
+RUN git clone --branch 3.1.0 --depth 1 https://github.com/Itseez/opencv_contrib.git
 RUN mkdir -p opencv/release
 WORKDIR /usr/local/src/opencv/release
 RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
@@ -73,7 +71,7 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
           -D WITH_TBB=ON \
           -D BUILD_PYTHON_SUPPORT=ON \
           -D WITH_V4L=ON \
-          -D INSTALL_C_EXAMPLES=ON \
+#          -D INSTALL_C_EXAMPLES=ON \     bug w/ tag=3.1.0: cmake has error
           -D INSTALL_PYTHON_EXAMPLES=ON \
           -D BUILD_EXAMPLES=ON \
           -D BUILD_DOCS=ON \
@@ -98,18 +96,18 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE \
           -D PYTHON3_PACKAGES_PATH=/opt/conda/lib/python3.4/site-packages \
           -D PYTHON3_NUMPY_INCLUDE_DIRS=/opt/conda/lib/python3.4/site-packages/numpy/core/include/ \
           ..
-#RUN make -j4
-#RUN make install
-#RUN sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
-#RUN ldconfig
+RUN make -j4
+RUN make install
+RUN sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
+RUN ldconfig
 #
 ## Additional python modules
-#RUN /opt/conda/envs/python2/bin/pip install imutils
-#RUN /opt/conda/bin/pip install imutils
-#
+RUN /opt/conda/envs/python2/bin/pip install imutils
+RUN /opt/conda/bin/pip install imutils
+
 ## =================================
-#
+
 ## Switch back to jupyter user (for now)
-#USER jovyan
-#
-#WORKDIR /data
+USER jovyan
+
+WORKDIR /data
