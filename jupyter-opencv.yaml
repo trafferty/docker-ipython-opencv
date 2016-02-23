@@ -1,7 +1,7 @@
 ---
 
 ipythonnotebook:
-  image: trafferty/docker-ipython-opencv
+  image: trafferty/jupyter-opencv
   ports:
    - "80:8888"
   environment:
