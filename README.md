@@ -8,7 +8,7 @@ jupyter/scipy-notebook
 ##### (Assumes that docker has been installed.  If not, start [here](https://docs.docker.com/installation/#installation).)
 Pull it:
 ```
-    docker pull trafferty/jupyter-opencv
+    docker pull trafferty/docker-ipython-opencv
 ```
 Run it:
 ```
