@@ -8,11 +8,11 @@ jupyter/scipy-notebook
 ##### (Assumes that docker has been installed.  If not, start [here](https://docs.docker.com/installation/#installation).)
 Pull it:
 ```
-    docker pull trafferty/jupyter-opencv
+    docker pull trafferty/docker-ipython-opencv
 ```
 Run it:
 ```
-    docker run --name cv_notebook -d -p 443:8888 -v $(pwd):/notebooks -e "PASSWORD=MY_PASSWORD"  trafferty/jupyter-opencv
+    docker run --name cv_notebook -d -p 443:8888 -v $(pwd):/notebooks -e "PASSWORD=MY_PASSWORD"  trafferty/docker-ipython-opencv
 ```
 After it is running, point your browser to https://localhost, login with the password provided in above step, and you can then start your first ipython notebook using the wonderful OpenCV module.  Here is some sample code to get you started:
 ```
